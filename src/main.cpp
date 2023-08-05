@@ -1,6 +1,13 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <glm/ext/matrix_transform.hpp>
+#include <glm/ext/vector_float3.hpp>
+#include <glm/fwd.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include <iostream>
 
 #include "stb_image.h"
@@ -47,14 +54,14 @@ int main()
     // build and compile our shader program
     // ------------------------------------
     // vertex shader
-    Shader ourShader = Shader("res/shaders/shader.vs", "res/shaders/shader.fs");
+    Shader ourShader = Shader("res/shaders/vertex.glsl", "res/shaders/fragment.glsl");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     float vertices[] = {
         // positions          // colors           // texture coords
-         0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-         0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+        0.5f,   0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+        0.5f,  -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
         -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
         -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
     };
@@ -145,6 +152,11 @@ int main()
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     ourShader.use();
     ourShader.setInt("texture2", 1);
+
+    glm::vec4 vec(1.0f, 0.0f, 0.0f, 1.0f);
+    glm::mat4 trans = glm::mat4(1.0f);
+    trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
+    trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
 
     // render loop
     // -----------

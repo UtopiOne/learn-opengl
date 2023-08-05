@@ -8,7 +8,7 @@ out vec2 TexCoord;
 
 void main()
 {
-    gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0); // add the xOffset to the x position of the vertex position
+    gl_Position = transform * vec4(aPos, 1.0f); // add the xOffset to the x position of the vertex position
+    TexCoord = vec2(aTexCoord.x, aTexCoord.y);
     ourColor = aColor;
-    TexCoord = aTexCoord;
 }
